@@ -1,0 +1,16 @@
+{
+  "name": "electrochemical-skills",
+  "owner": {
+    "name": "jaroslav-herman"
+  },
+  "metadata": {
+    "description": "Private team skills for electrochemical data analysis."
+  },
+  "plugins": [
+    {
+      "name": "electrochemical-analysis",
+      "source": "./plugins/electrochemical-analysis",
+      "description": "Reusable workflows for EC-Lab IV, SV, and performance comparisons."
+    }
+  ]
+}
