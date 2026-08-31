@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
+os.environ.setdefault("MPLCONFIGDIR", str(Path(__file__).resolve().parent / ".matplotlib"))
 import matplotlib
 
 matplotlib.use("Agg")
@@ -11,11 +13,14 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
+matplotlib.rcParams["text.usetex"] = False
+
 import wepy.basics as we
 import wepy.iv_curve as weiv
 
 
-DATA_ROOT = Path(r"\\ELECTROLYZER\PEM-WE_measurements\2026")
+DATA_ROOT = Path(os.environ.get("ELECTROCHEMICAL_DATA_ROOT", r"\\ELECTROLYZER\PEM-WE_measurements\2026"))
+FILE_EXTENSION = os.environ.get("ELECTROCHEMICAL_FILE_EXTENSION", ".mpr").lower()
 SAMPLE_IDS = ("453", "455", "457")  # Replace with IDs selected from the live sheet.
 CELL_VOLTAGES = (1.6, 1.8, 2.0)
 OUTPUT_DIR = Path("results")
@@ -43,7 +48,7 @@ def sample_folders() -> dict[str, Path]:
 
 def evolution(folder: Path) -> dict[float, list[float]]:
     files = we.load_files(
-        str(folder), contains_string="SV", extension=".mpr", natural_sort=True
+        str(folder), contains_string="SV", extension=FILE_EXTENSION, natural_sort=True
     )
     values = {voltage: [] for voltage in CELL_VOLTAGES}
     for file in files:

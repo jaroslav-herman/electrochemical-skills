@@ -39,7 +39,8 @@ irm https://raw.githubusercontent.com/jaroslav-herman/electrochemical-skills/mai
 ```
 
 The installer creates a local workflow project, installs the pinned `wepy` release,
-and registers the skill marketplace for Claude Code and Codex. After an approved
+registers the skill marketplace for Claude Code and Codex, and copies a direct
+Codex skill fallback to `%USERPROFILE%\.codex\skills`. After an approved
 update, run the updater from the local skills checkout:
 
 ```powershell
@@ -67,7 +68,32 @@ credential helper before running the installer.
 
 | Skills store | `wepy` |
 | --- | --- |
-| 0.2.4 | 0.1.3 |
+| 0.2.6 | 0.1.3 |
 
-The `0.2.4` skills-store version is the first release using the bootstrap workflow
+The `0.2.6` skills-store version is the first release using the bootstrap workflow
 described here.
+
+## Troubleshooting
+
+Run verification from the managed workflow environment, not from Anaconda or a
+directly invoked `.venv\Scripts\python.exe`:
+
+```powershell
+cd "$env:LOCALAPPDATA\electrochemical-workflow\workflow-project"
+uv run python verify_install.py
+```
+
+If the desktop runtime does not show the plugin, the installer also maintains a
+direct copy at `%USERPROFILE%\.codex\skills\electrochemical-iv-comparison`.
+After an update, fully terminate Codex and start a new task/thread.
+
+If the measurement drive letter from the sheet is unavailable, configure the
+actual local path for the session:
+
+```powershell
+$env:ELECTROCHEMICAL_DATA_ROOT = 'C:\PEM-WE_measurements\2026'
+$env:ELECTROCHEMICAL_FILE_EXTENSION = '.mpr'
+```
+
+Set `ELECTROCHEMICAL_FILE_EXTENSION` to `.mpt` only when an `.mpt` workflow is
+explicitly requested.

@@ -10,13 +10,13 @@ Use this skill for requests to compare polarization/IV/SV curves or performance 
 ## Workflow
 
 1. Always inspect the live shared Google Sheet before selecting samples or labels: `https://docs.google.com/spreadsheets/d/1ycoCdaol3zYWx8PDTvrI30eZV0nuC7ooFpEvz9qOlds/edit`. Do not rely on cached exports or stale hardcoded mappings. Identify the data root, sample IDs, project membership, day, procedure, technique, and requested curve/cycle. If the user does not specify cell voltages for performance evolution, use the established defaults `1.6`, `1.8`, and `2.0 V`.
-2. Prefer `.mpr` files. Discover sample folders with `wepy.basics.load_folders()` and measurement files with `wepy.basics.load_files(..., extension=".mpr", natural_sort=True)`.
-3. Read files with `wepy.basics.read_file_safe()`. Empty, header-only, unreadable, or zero-byte exports must be skipped with a warning; do not abort a multi-sample comparison because of one invalid file.
+2. Prefer `.mpr` files by default. When the user explicitly requests `.mpt`, or when no suitable `.mpr` exists, discover `.mpt` files with `wepy.basics.load_files(..., extension=".mpt", natural_sort=True)` and read them with `wepy.basics.read_file()` for a deliberate single-file workflow or `wepy.basics.read_file_safe()` for batch processing. Never silently substitute a different format.
+3. Read batch files with `wepy.basics.read_file_safe()`. Empty, header-only, unreadable, or zero-byte exports must be skipped with a warning; do not abort a multi-sample comparison because of one invalid file. Run analysis through the workflow environment with `uv run python script.py`, not a host Anaconda interpreter or a direct `.venv\\Scripts\\python.exe` path.
 4. Use `wepy.iv_curve.IV_curves_data(data)` for SV/IV extraction. It returns `(voltages, currents)` lists. Select the requested curve by its position or explicit cycle number; do not unpack it as a list of `(voltage, current)` pairs.
 5. For performance at a target cell voltage, use the current value nearest that voltage on each extracted IV curve. Treat natural file order and curve order as the measurement sequence unless reliable timestamps are explicitly requested.
 6. Use the default color scale exactly as `we.get_colors(number_of_samples)`. Do not override `colormap` unless the user asks for a different palette.
 7. Label samples with names from the shared Google Sheet sample table. If the matching `Sample Name` is blank or unavailable, use only the sample number. For reproducible local scripts, record the retrieved names in a clearly marked mapping and state that they came from the shared table.
-8. Generate a standalone Python script in the research workspace, save outputs under `results/`, execute the script, and visually inspect the generated PNG(s). A graph request is not complete until the output files exist and the script has run successfully.
+8. Resolve the data root from the user's request or the `ELECTROCHEMICAL_DATA_ROOT` environment variable; do not assume a Google Sheet drive letter is mounted. Generate a standalone Python script in the research workspace, save outputs under `results/`, execute it with `uv run python`, and visually inspect the generated PNG(s). A graph request is not complete until the output files exist and the script has run successfully.
 
 ## Selection rules
 
@@ -24,6 +24,7 @@ Use this skill for requests to compare polarization/IV/SV curves or performance 
 - If multiple candidate files exist, inspect filenames and data availability. Prefer the first valid naturally sorted file for a single requested curve; skip empty candidates with `read_file_safe()`.
 - If a requested sample folder or curve is missing, report it clearly and continue only when the requested comparison remains scientifically interpretable.
 - Keep the x-axis label as "Measurement sequence" when no trustworthy elapsed-time field is being used.
+- Before plotting, set a writable `MPLCONFIGDIR` inside the workflow project and set `matplotlib.rcParams["text.usetex"] = False` unless a working LaTeX executable has been detected.
 
 ## Plot output
 
