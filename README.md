@@ -68,10 +68,11 @@ credential helper before running the installer.
 
 | Skills store | `wepy` |
 | --- | --- |
+| 0.2.7 | 0.1.3 |
 | 0.2.6 | 0.1.3 |
 
-The `0.2.6` skills-store version is the first release using the bootstrap workflow
-described here.
+Version 0.2.7 adds automatic local/network measurement-path selection and
+sample-Type-aware `AEM-WE` folder lookup.
 
 ## Troubleshooting
 

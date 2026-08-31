@@ -17,29 +17,33 @@ matplotlib.rcParams["text.usetex"] = False
 
 import wepy.basics as we
 import wepy.iv_curve as weiv
+from measurement_paths import candidate_measurement_roots
 
 
-DATA_ROOT = Path(os.environ.get("ELECTROCHEMICAL_DATA_ROOT", r"\\ELECTROLYZER\PEM-WE_measurements\2026"))
+YEAR = 2026
 FILE_EXTENSION = os.environ.get("ELECTROCHEMICAL_FILE_EXTENSION", ".mpr").lower()
 SAMPLE_IDS = ("453", "455", "457")  # Replace with IDs selected from the live sheet.
+# Populate from the live sheet. Missing/blank values search both year locations.
+SAMPLE_TYPES: dict[str, str] = {}
 CELL_VOLTAGES = (1.6, 1.8, 2.0)
 OUTPUT_DIR = Path("results")
 
 
 def sample_folders() -> dict[str, Path]:
-    folders = we.load_folders(
-        str(DATA_ROOT), contains_string=list(SAMPLE_IDS), natural_sort=True, mode="any"
-    )
-    if isinstance(folders, str):
-        raise FileNotFoundError(folders)
     result = {}
     for sample_id in SAMPLE_IDS:
-        matches = [
-            Path(folder)
-            for folder in folders
-            if Path(folder).name.startswith(f"{sample_id}_")
-            or Path(folder).name == sample_id
-        ]
+        matches = []
+        for root in candidate_measurement_roots(YEAR, SAMPLE_TYPES.get(sample_id)):
+            folders = we.load_folders(
+                str(root), contains_string=sample_id, natural_sort=True, mode="any"
+            )
+            if not isinstance(folders, str):
+                matches.extend(
+                    Path(folder)
+                    for folder in folders
+                    if Path(folder).name.startswith(f"{sample_id}_")
+                    or Path(folder).name == sample_id
+                )
         if len(matches) != 1:
             raise FileNotFoundError(f"Expected one folder for {sample_id}, found {matches}")
         result[sample_id] = matches[0]

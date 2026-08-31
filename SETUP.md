@@ -42,9 +42,11 @@ cd "$env:LOCALAPPDATA\electrochemical-workflow\workflow-project"
 uv run python verify_install.py
 ```
 
-If the measurement share is mounted at a different path than the one in the
-sheet, set `ELECTROCHEMICAL_DATA_ROOT` in the PowerShell session before running
-a workflow. Set `ELECTROCHEMICAL_FILE_EXTENSION=.mpt` only for an explicitly
+The reference workflow first checks `C:\PEM-WE_measurements\<year>` and then
+`\\ELECTROLYZER\PEM-WE_measurements\<year>`. For 2024 the year directory is
+`2024_new_naming`. If a computer uses another mount point, set
+`ELECTROCHEMICAL_DATA_ROOT` in the PowerShell session before running a
+workflow. Set `ELECTROCHEMICAL_FILE_EXTENSION=.mpt` only for an explicitly
 requested text-export workflow.
 
 ## Version policy

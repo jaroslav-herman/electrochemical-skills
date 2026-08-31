@@ -17,6 +17,9 @@ Use this skill for requests to compare polarization/IV/SV curves or performance 
 6. Use the default color scale exactly as `we.get_colors(number_of_samples)`. Do not override `colormap` unless the user asks for a different palette.
 7. Label samples with names from the shared Google Sheet sample table. If the matching `Sample Name` is blank or unavailable, use only the sample number. For reproducible local scripts, record the retrieved names in a clearly marked mapping and state that they came from the shared table.
 8. Resolve the data root from the user's request or the `ELECTROCHEMICAL_DATA_ROOT` environment variable; do not assume a Google Sheet drive letter is mounted. Generate a standalone Python script in the research workspace, save outputs under `results/`, execute it with `uv run python`, and visually inspect the generated PNG(s). A graph request is not complete until the output files exist and the script has run successfully.
+9. Select sample folders using the live sheet's `Type`: `AEM` samples are under
+   the year's `AEM-WE` subfolder, known non-AEM samples are directly under the
+   year folder, and blank/unavailable types require searching both locations.
 
 ## Selection rules
 

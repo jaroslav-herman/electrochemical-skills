@@ -15,7 +15,7 @@ git -C $SkillsRoot fetch --tags origin
 git -C $SkillsRoot checkout main
 git -C $SkillsRoot pull --ff-only origin main
 
-foreach ($referenceFile in @('AGENTS.md', 'compare_performance_evolution.py', 'verify_install.py', '.env.example')) {
+foreach ($referenceFile in @('AGENTS.md', 'compare_performance_evolution.py', 'measurement_paths.py', 'verify_install.py', '.env.example')) {
     $destination = Join-Path $WorkflowRoot $referenceFile
     if (-not (Test-Path $destination)) {
         Copy-Item (Join-Path $SkillsRoot ('references\workflow-project\' + $referenceFile)) $destination
