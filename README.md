@@ -68,6 +68,7 @@ credential helper before running the installer.
 
 | Skills store | `wepy` |
 | --- | --- |
+| 0.2.9 | 0.1.3 |
 | 0.2.8 | 0.1.3 |
 | 0.2.7 | 0.1.3 |
 | 0.2.6 | 0.1.3 |

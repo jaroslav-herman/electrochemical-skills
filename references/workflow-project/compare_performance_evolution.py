@@ -88,6 +88,7 @@ def main() -> None:
         axis.set_xlabel("Measurement sequence")
         axis.set_ylabel("Current (mA)")
         axis.set_title(f"Performance evolution at {target:g} V")
+        # Keep long sample labels outside the plotting area.
         axis.legend(
             frameon=False,
             loc="upper left",
