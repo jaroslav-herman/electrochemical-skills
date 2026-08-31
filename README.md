@@ -6,7 +6,7 @@ Private, version-controlled team skills for electrochemical data analysis.
 
 - `electrochemical-analysis`: reusable workflows for EC-Lab IV/SV curve comparisons and performance evolution.
 
-The Codex marketplace catalog is at `.agents/plugins/marketplace.json`. The Claude Code catalog is at `.claude-plugin/marketplace.json`.
+The Codex marketplace catalog is at `.agents/plugins/marketplace.json`. The Claude Code catalog is at `.claude-plugin/marketplace.json`. The grouped plugin includes both `.codex-plugin/plugin.json` and `.claude-plugin/plugin.json` manifests.
 
 ## House rules
 
