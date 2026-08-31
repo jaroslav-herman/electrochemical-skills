@@ -1,7 +1,7 @@
 {
-  "name": "personal",
+  "name": "electrochemical-skills",
   "interface": {
-    "displayName": "Personal"
+    "displayName": "Electrochemical Skills"
   },
   "plugins": [
     {

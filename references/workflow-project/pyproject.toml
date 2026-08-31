@@ -1,0 +1,9 @@
+[project]
+name = "electrochemical-workflow"
+version = "0.1.0"
+description = "Team workflow project for electrochemical measurements"
+requires-python = ">=3.14"
+dependencies = ["wepy"]
+
+[tool.uv.sources]
+wepy = { git = "https://github.com/jaroslav-herman/wepy.git", tag = "v0.1.3" }
