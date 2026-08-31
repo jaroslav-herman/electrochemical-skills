@@ -30,3 +30,12 @@ Use this skill for requests to compare polarization/IV/SV curves or performance 
 - For a direct SV/IV comparison, create one graph containing one selected curve per sample.
 - For performance evolution at multiple voltages, create one separate graph per voltage, with all requested samples compared on each graph.
 - Use publication-style axis labels, legends containing sample number and nonblank sample name, tight layout, and 300 dpi PNG output.
+
+## Self-Improvement
+
+At the end of every run, before ending:
+
+1. Did any step fail or need a workaround?
+2. Did the user correct or reject anything meaningful?
+3. Did you discover something a future run might need?
+   Only propose a change if it meaningfully improves the skill.
