@@ -31,6 +31,24 @@ The colleague must be connected to the laboratory network and have read access
 to the relevant measurement folders. The live sample metadata is read from the
 shared Google Sheet documented in the skill.
 
+The managed environment is the supported execution environment. Run scripts
+with `uv run python ...`; do not select an unrelated Anaconda interpreter or
+launch the environment's `python.exe` directly from a desktop sandbox.
+
+After installation, verify it with:
+
+```powershell
+cd "$env:LOCALAPPDATA\electrochemical-workflow\workflow-project"
+uv run python verify_install.py
+```
+
+The reference workflow first checks `C:\PEM-WE_measurements\<year>` and then
+`\\ELECTROLYZER\PEM-WE_measurements\<year>`. For 2024 the year directory is
+`2024_new_naming`. If a computer uses another mount point, set
+`ELECTROCHEMICAL_DATA_ROOT` in the PowerShell session before running a
+workflow. Set `ELECTROCHEMICAL_FILE_EXTENSION=.mpt` only for an explicitly
+requested text-export workflow.
+
 ## Version policy
 
 The initial installer checks out the skills-store release tag and installs the

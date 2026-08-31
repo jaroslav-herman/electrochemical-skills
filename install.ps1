@@ -2,12 +2,13 @@ $ErrorActionPreference = 'Stop'
 
 $SkillsRepository = 'https://github.com/jaroslav-herman/electrochemical-skills.git'
 $WepyRepository = 'https://github.com/jaroslav-herman/wepy.git'
-$SkillsVersion = '0.2.0'
-$SkillsTag = 'v0.2.0'
+$SkillsVersion = '0.2.8'
+$SkillsTag = 'v0.2.8'
 $WepyVersion = 'v0.1.3'
 $LocalRoot = Join-Path $env:LOCALAPPDATA 'electrochemical-workflow'
 $SkillsRoot = Join-Path $LocalRoot 'electrochemical-skills'
 $WorkflowRoot = Join-Path $LocalRoot 'workflow-project'
+$CodexSkillRoot = Join-Path $env:USERPROFILE '.codex\skills\electrochemical-iv-comparison'
 
 function Require-Command([string]$Name) {
     if (-not (Get-Command $Name -ErrorAction SilentlyContinue)) {
@@ -19,8 +20,8 @@ Require-Command 'git'
 Require-Command 'uv'
 Require-Command 'python'
 
-$pythonVersion = & python --version 2>&1
-if ($pythonVersion -notmatch 'Python 3\.1[4-9]') {
+$pythonVersion = (& python -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}')" 2>&1 | Select-Object -Last 1).ToString().Trim()
+if ($pythonVersion -notmatch '^3\.(1[4-9]|[2-9][0-9])\.') {
     throw "Python 3.14 or newer is required; detected: $pythonVersion"
 }
 
@@ -37,12 +38,22 @@ if (-not (Test-Path (Join-Path $WorkflowRoot 'pyproject.toml'))) {
     Copy-Item (Join-Path $SkillsRoot 'references\workflow-project\pyproject.toml') (Join-Path $WorkflowRoot 'pyproject.toml')
     Copy-Item (Join-Path $SkillsRoot 'references\workflow-project\README.md') (Join-Path $WorkflowRoot 'README.md')
     Copy-Item (Join-Path $SkillsRoot 'references\workflow-project\AGENTS.md') (Join-Path $WorkflowRoot 'AGENTS.md')
+    Copy-Item (Join-Path $SkillsRoot 'references\workflow-project\compare_performance_evolution.py') (Join-Path $WorkflowRoot 'compare_performance_evolution.py')
+    Copy-Item (Join-Path $SkillsRoot 'references\workflow-project\measurement_paths.py') (Join-Path $WorkflowRoot 'measurement_paths.py')
+    Copy-Item (Join-Path $SkillsRoot 'references\workflow-project\verify_install.py') (Join-Path $WorkflowRoot 'verify_install.py')
+    Copy-Item (Join-Path $SkillsRoot 'references\workflow-project\.env.example') (Join-Path $WorkflowRoot '.env.example')
+}
+foreach ($referenceFile in @('AGENTS.md', 'compare_performance_evolution.py', 'measurement_paths.py', 'verify_install.py', '.env.example')) {
+    $destination = Join-Path $WorkflowRoot $referenceFile
+    if (-not (Test-Path $destination)) {
+        Copy-Item (Join-Path $SkillsRoot ('references\workflow-project\' + $referenceFile)) $destination
+    }
 }
 
 Push-Location $WorkflowRoot
 try {
     uv sync --python 3.14
-    uv run python -c "import wepy; print('wepy ' + wepy.__version__)"
+    uv run python verify_install.py
 } finally {
     Pop-Location
 }
@@ -65,6 +76,11 @@ if (Get-Command codex -ErrorAction SilentlyContinue) {
 } else {
     Write-Warning 'Codex CLI was not found; install/register the marketplace later from the cloned skills checkout.'
 }
+
+New-Item -ItemType Directory -Force -Path (Split-Path $CodexSkillRoot) | Out-Null
+if (Test-Path $CodexSkillRoot) { Remove-Item -LiteralPath $CodexSkillRoot -Recurse -Force }
+Copy-Item (Join-Path $SkillsRoot 'plugins\electrochemical-analysis\skills\electrochemical-iv-comparison') $CodexSkillRoot -Recurse -Force
+Write-Host "Installed direct Codex skill fallback at $CodexSkillRoot"
 
 Write-Host "Installed electrochemical workflow $SkillsVersion with wepy $WepyVersion in $WorkflowRoot"
 Write-Host 'Restart Claude Code/Codex before using updated skills.'
