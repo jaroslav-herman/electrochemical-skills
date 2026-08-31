@@ -2,8 +2,8 @@ $ErrorActionPreference = 'Stop'
 
 $SkillsRepository = 'https://github.com/jaroslav-herman/electrochemical-skills.git'
 $WepyRepository = 'https://github.com/jaroslav-herman/wepy.git'
-$SkillsVersion = '0.2.1'
-$SkillsTag = 'v0.2.1'
+$SkillsVersion = '0.2.2'
+$SkillsTag = 'v0.2.2'
 $WepyVersion = 'v0.1.3'
 $LocalRoot = Join-Path $env:LOCALAPPDATA 'electrochemical-workflow'
 $SkillsRoot = Join-Path $LocalRoot 'electrochemical-skills'
@@ -19,8 +19,8 @@ Require-Command 'git'
 Require-Command 'uv'
 Require-Command 'python'
 
-$pythonVersion = & python --version 2>&1
-if ($pythonVersion -notmatch 'Python 3\.1[4-9]') {
+$pythonVersion = (& python -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}')" 2>&1 | Select-Object -Last 1).ToString().Trim()
+if ($pythonVersion -notmatch '^3\.(1[4-9]|[2-9][0-9])\.') {
     throw "Python 3.14 or newer is required; detected: $pythonVersion"
 }
 
