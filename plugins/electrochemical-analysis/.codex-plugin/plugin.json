@@ -1,6 +1,6 @@
 {
   "name": "electrochemical-analysis",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Reusable electrochemical data-analysis skills for IV, SV, and performance-comparison workflows.",
   "author": {
     "name": "jaroslav-herman"

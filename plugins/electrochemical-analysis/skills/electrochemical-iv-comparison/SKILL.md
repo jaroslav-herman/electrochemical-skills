@@ -9,7 +9,7 @@ Use this skill for requests to compare polarization/IV/SV curves or performance 
 
 ## Workflow
 
-1. Identify the data root, sample IDs, day, procedure, technique, and requested curve/cycle. If the user does not specify cell voltages for performance evolution, use the established defaults `1.6`, `1.8`, and `2.0 V`.
+1. Always inspect the live shared Google Sheet before selecting samples or labels: `https://docs.google.com/spreadsheets/d/1ycoCdaol3zYWx8PDTvrI30eZV0nuC7ooFpEvz9qOlds/edit`. Do not rely on cached exports or stale hardcoded mappings. Identify the data root, sample IDs, project membership, day, procedure, technique, and requested curve/cycle. If the user does not specify cell voltages for performance evolution, use the established defaults `1.6`, `1.8`, and `2.0 V`.
 2. Prefer `.mpr` files. Discover sample folders with `wepy.basics.load_folders()` and measurement files with `wepy.basics.load_files(..., extension=".mpr", natural_sort=True)`.
 3. Read files with `wepy.basics.read_file_safe()`. Empty, header-only, unreadable, or zero-byte exports must be skipped with a warning; do not abort a multi-sample comparison because of one invalid file.
 4. Use `wepy.iv_curve.IV_curves_data(data)` for SV/IV extraction. It returns `(voltages, currents)` lists. Select the requested curve by its position or explicit cycle number; do not unpack it as a list of `(voltage, current)` pairs.
