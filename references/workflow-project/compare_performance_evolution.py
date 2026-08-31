@@ -74,7 +74,7 @@ def main() -> None:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     for target in CELL_VOLTAGES:
-        figure, axis = plt.subplots(figsize=(6.5, 4.5))
+        figure, axis = plt.subplots(figsize=(12, 4.8))
         for sample_id, color in zip(SAMPLE_IDS, colors):
             values = data[sample_id][target]
             if values:
@@ -88,8 +88,13 @@ def main() -> None:
         axis.set_xlabel("Measurement sequence")
         axis.set_ylabel("Current (mA)")
         axis.set_title(f"Performance evolution at {target:g} V")
-        axis.legend(frameon=False)
-        figure.tight_layout()
+        axis.legend(
+            frameon=False,
+            loc="upper left",
+            bbox_to_anchor=(1.02, 1.0),
+            borderaxespad=0.0,
+        )
+        figure.subplots_adjust(right=0.56)
         figure.savefig(OUTPUT_DIR / f"performance_evolution_{target:g}V.png", dpi=300)
         plt.close(figure)
 
