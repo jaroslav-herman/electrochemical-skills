@@ -10,7 +10,7 @@
     {
       "name": "electrochemical-analysis",
       "source": "./plugins/electrochemical-analysis",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "description": "Reusable workflows for EC-Lab IV, SV, and performance comparisons."
     }
   ]

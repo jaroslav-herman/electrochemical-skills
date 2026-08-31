@@ -16,7 +16,7 @@ git -C $SkillsRoot pull --ff-only origin main
 
 Push-Location $WorkflowRoot
 try {
-    uv lock --upgrade-package wepy
+    uv lock --upgrade-package eisyfit-wepy
     uv sync --python 3.14
     uv run python -c "import wepy; print('wepy ' + wepy.__version__)"
 } finally {
