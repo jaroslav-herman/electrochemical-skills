@@ -2,8 +2,8 @@ $ErrorActionPreference = 'Stop'
 
 $SkillsRepository = 'https://github.com/jaroslav-herman/electrochemical-skills.git'
 $WepyRepository = 'https://github.com/jaroslav-herman/wepy.git'
-$SkillsVersion = '0.2.2'
-$SkillsTag = 'v0.2.2'
+$SkillsVersion = '0.2.3'
+$SkillsTag = 'v0.2.3'
 $WepyVersion = 'v0.1.3'
 $LocalRoot = Join-Path $env:LOCALAPPDATA 'electrochemical-workflow'
 $SkillsRoot = Join-Path $LocalRoot 'electrochemical-skills'
@@ -37,6 +37,7 @@ if (-not (Test-Path (Join-Path $WorkflowRoot 'pyproject.toml'))) {
     Copy-Item (Join-Path $SkillsRoot 'references\workflow-project\pyproject.toml') (Join-Path $WorkflowRoot 'pyproject.toml')
     Copy-Item (Join-Path $SkillsRoot 'references\workflow-project\README.md') (Join-Path $WorkflowRoot 'README.md')
     Copy-Item (Join-Path $SkillsRoot 'references\workflow-project\AGENTS.md') (Join-Path $WorkflowRoot 'AGENTS.md')
+    Copy-Item (Join-Path $SkillsRoot 'references\workflow-project\compare_performance_evolution.py') (Join-Path $WorkflowRoot 'compare_performance_evolution.py')
 }
 
 Push-Location $WorkflowRoot
