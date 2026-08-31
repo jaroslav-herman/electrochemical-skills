@@ -29,6 +29,7 @@ if (Get-Command claude -ErrorAction SilentlyContinue) {
 }
 if (Get-Command codex -ErrorAction SilentlyContinue) {
     & codex plugin marketplace add $SkillsRoot 2>$null
+    & codex plugin marketplace upgrade electrochemical-skills 2>$null
     & codex plugin add 'electrochemical-analysis@electrochemical-skills'
 }
 

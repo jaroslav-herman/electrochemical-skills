@@ -67,7 +67,7 @@ credential helper before running the installer.
 
 | Skills store | `wepy` |
 | --- | --- |
-| 0.2.3 | 0.1.3 |
+| 0.2.4 | 0.1.3 |
 
-The `0.2.3` skills-store version is the first release using the bootstrap workflow
+The `0.2.4` skills-store version is the first release using the bootstrap workflow
 described here.
